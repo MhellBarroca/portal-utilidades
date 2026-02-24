@@ -97,7 +97,6 @@ src/
 
 Este projeto foi organizado simulando uma Sprint real de desenvolvimento, aplicando conceitos de metodologias ágeis como definição de User Stories, Critérios de Aceitação e Milestones.
 
----
 
 ## Visão do Produto
 
@@ -110,8 +109,6 @@ O objetivo é oferecer ao utilizador uma experiência simples, organizada e efic
 - Controlar entradas e saídas financeiras
 
 O projeto entrega valor ao utilizador ao reunir múltiplas funcionalidades em uma única aplicação, com navegação fluida e persistência de dados.
-
----
 
 ## User Stories – Módulo TaskMaster
 
@@ -131,8 +128,6 @@ Como usuário, eu quero que o sistema valide o título da tarefa, para evitar ca
 
 ### US05 – Persistência de dados  
 Como usuário, eu quero que minhas tarefas continuem salvas mesmo após atualizar a página, para não perder informações.
-
----
 
 ## Critérios de Aceitação
 
@@ -166,7 +161,6 @@ Como usuário, eu quero que minhas tarefas continuem salvas mesmo após atualiza
 - Ao atualizar a página (F5), os dados devem permanecer
 - A lista deve carregar automaticamente os dados salvos
 
----
 
 ## Milestones do Projeto
 
@@ -176,13 +170,11 @@ Configuração inicial do projeto, criação das rotas, navbar persistente e pá
 ### M2 – Implementação dos Módulos
 Desenvolvimento completo dos módulos TaskMaster, ConnectHub e MoneyFlow, incluindo validações com Zod, uso do React Hook Form e persistência de dados no localStorage.
 
----
 
 ## Organização Ágil no GitHub
 
 As User Stories foram criadas como **Issues** e organizadas em **Milestones**, simulando a gestão de tarefas dentro de uma Sprint real utilizando as ferramentas nativas do GitHub.
 
----
 
 ## Autoria
 
