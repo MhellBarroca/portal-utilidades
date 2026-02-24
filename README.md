@@ -95,61 +95,92 @@ src/
 
 ## Planejamento do Projeto (Metodologias Ágeis)
 
-### User Stories – Módulo TaskMaster
+Este projeto foi organizado simulando uma Sprint real de desenvolvimento, aplicando conceitos de metodologias ágeis como definição de User Stories, Critérios de Aceitação e Milestones.
 
-**User Story 1**  
+---
+
+## Visão do Produto
+
+O Portal de Utilidades é uma aplicação web desenvolvida para centralizar ferramentas essenciais do dia a dia em um único sistema.  
+
+O objetivo é oferecer ao utilizador uma experiência simples, organizada e eficiente, permitindo:
+
+- Gerenciar tarefas
+- Cadastrar contatos
+- Controlar entradas e saídas financeiras
+
+O projeto entrega valor ao utilizador ao reunir múltiplas funcionalidades em uma única aplicação, com navegação fluida e persistência de dados.
+
+---
+
+## User Stories – Módulo TaskMaster
+
+As estórias de usuário foram registradas também na aba **Issues** do GitHub, simulando um ambiente real de gestão ágil.
+
+### US01 – Cadastro de nova tarefa  
 Como usuário, eu quero adicionar uma nova tarefa informando um título e uma categoria, para organizar melhor minhas atividades.
 
-**User Story 2**  
+### US02 – Visualização da lista  
 Como usuário, eu quero visualizar a lista de tarefas cadastradas, para acompanhar o que preciso fazer.
 
-**User Story 3**  
+### US03 – Remoção de tarefa  
 Como usuário, eu quero remover uma tarefa da lista, para manter apenas tarefas relevantes.
 
-**User Story 4**  
+### US04 – Validação do título  
 Como usuário, eu quero que o sistema valide o título da tarefa, para evitar cadastros incorretos.
 
-**User Story 5**  
+### US05 – Persistência de dados  
 Como usuário, eu quero que minhas tarefas continuem salvas mesmo após atualizar a página, para não perder informações.
 
 ---
 
-### Critérios de Aceitação
+## Critérios de Aceitação
 
-#### User Story 1 – Cadastro de tarefas
+### US01 – Cadastro de nova tarefa
 - O formulário deve exigir o preenchimento do título
+- O título deve ter no mínimo 5 caracteres
 - A categoria deve ser selecionada antes do envio
 - A tarefa deve ser adicionada à lista após o envio
+- Os dados devem ser salvos no localStorage
 
-#### User Story 2 – Visualização da lista
+### US02 – Visualização da lista
 - A lista deve exibir todas as tarefas cadastradas
 - Cada tarefa deve mostrar título e categoria
-- A lista deve atualizar automaticamente ao adicionar tarefas
+- A lista deve atualizar automaticamente ao adicionar novas tarefas
+- Os dados devem ser carregados automaticamente do localStorage ao iniciar a aplicação
 
-#### User Story 3 – Remoção de tarefas
+### US03 – Remoção de tarefa
 - Cada tarefa deve possuir um botão de remover
-- Ao remover, a tarefa deve desaparecer da lista
+- Ao remover, a tarefa deve desaparecer imediatamente da lista
 - O estado da aplicação deve ser atualizado corretamente
+- O localStorage deve ser atualizado após a remoção
 
-#### User Story 4 – Validação de dados
+### US04 – Validação do título
 - O título deve ter no mínimo 5 caracteres
 - Mensagens de erro devem ser exibidas quando inválido
 - O formulário não deve ser enviado com dados inválidos
+- A validação deve ser realizada utilizando Zod
 
-#### User Story 5 – Persistência de dados
+### US05 – Persistência de dados
 - As tarefas devem ser salvas no localStorage
 - Ao atualizar a página (F5), os dados devem permanecer
 - A lista deve carregar automaticamente os dados salvos
 
 ---
 
-### Milestones do Projeto
+## Milestones do Projeto
 
-**M1 – Estrutura inicial do projeto**  
-Configuração do projeto, criação das rotas, menu de navegação e página inicial.
+### M1 – Estrutura de Rotas e Home
+Configuração inicial do projeto, criação das rotas, navbar persistente e página inicial (Home) com navegação para os módulos.
 
-**M2 – Implementação dos módulos**  
-Desenvolvimento dos módulos TaskMaster, ConnectHub e MoneyFlow, incluindo validações e persistência de dados.
+### M2 – Implementação dos Módulos
+Desenvolvimento completo dos módulos TaskMaster, ConnectHub e MoneyFlow, incluindo validações com Zod, uso do React Hook Form e persistência de dados no localStorage.
+
+---
+
+## Organização Ágil no GitHub
+
+As User Stories foram criadas como **Issues** e organizadas em **Milestones**, simulando a gestão de tarefas dentro de uma Sprint real utilizando as ferramentas nativas do GitHub.
 
 ---
 
