@@ -5,7 +5,6 @@ Cada módulo foi criado com o objetivo de praticar conceitos vistos em aula, com
 
 O projeto funciona como um hub, onde cada funcionalidade é acessada por meio de um menu principal.
 
----
 
 ## Objetivo do projeto
 
@@ -17,7 +16,6 @@ O objetivo deste projeto é aplicar, na prática, os conteúdos estudados em sal
 - Validação de dados utilizando schemas separados para cada módulo
 - Estruturação correta de um projeto front-end
 
----
 
 ## Funcionalidades do Portal
 
@@ -31,7 +29,6 @@ Neste módulo foi praticado:
 - Persistência de dados utilizando localStorage
 - Organização do código em componentes reutilizáveis
 
----
 
 ### ConnectHub
 Módulo criado para simular um gerenciamento de contatos.
@@ -43,7 +40,6 @@ Neste módulo foi praticado:
 - Separação entre regras de negócio e interface
 - Organização do código por responsabilidade
 
----
 
 ### MoneyFlow
 Módulo de controle financeiro.
@@ -55,7 +51,6 @@ Neste módulo foi praticado:
 - Persistência de dados mesmo após atualizar a página
 - Atualização do saldo ao adicionar ou remover lançamentos
 
----
 
 ## Estrutura do projeto
 
