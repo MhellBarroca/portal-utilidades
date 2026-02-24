@@ -1,0 +1,5 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*O index.css importa as camadas principais do Tailwind: base, components e utilities. */
