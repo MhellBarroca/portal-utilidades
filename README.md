@@ -173,4 +173,4 @@ As User Stories foram criadas como **Issues** e organizadas em **Milestones**, s
 
 ## Autoria
 
-Projeto desenvolvido por Mhell Barroca Novaes, com fins educacionais e de portfólio.
+Projeto desenvolvido por Mhell Barroca Novaes, com fins educacionais.
