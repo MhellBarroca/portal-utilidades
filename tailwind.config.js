@@ -3,14 +3,18 @@ export default {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
-    //"Procure classes CSS nesses arquivos aqui."
-    //Se você não colocar isso, o Tailwind não gera os estilos.
-    // comentario principal mhell (O tailwind.config.js define onde o Tailwind deve procurar 
-    // as classes CSS e permite personalização do tema.)
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#2563eb",   // azul principal
+        secondary: "#16a34a", // verde
+        danger: "#dc2626",    // vermelho
+        background: "#f9fafb",
+        surface: "#ffffff",
+        muted: "#6b7280",
+      },
+    },
   },
   plugins: [],
-}
-
+};

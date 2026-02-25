@@ -1,145 +1,132 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { moneySchema } from "../schemas/moneySchema";
-import type { MoneyFormData } from "../schemas/moneySchema";
+import { moneySchema, type MoneyFormData } from "../schemas/moneySchema";
+import { Input } from "../components/Input";
+import { Select } from "../components/Select";
+import { Button } from "../components/Button";
 
 export function MoneyFlow() {
-  /*
-    Estado que guarda a lista de lançamentos financeiros.
-    Funciona como banco de dados local da aplicação.
-  */
   const [items, setItems] = useState<MoneyFormData[]>([]);
 
-  /*
-    Ao carregar a página, buscamos os dados salvos no localStorage.
-  */
   useEffect(() => {
     const dadosSalvos = localStorage.getItem("moneyflow");
-
-    if (dadosSalvos === null) {
-      setItems([]);
-      return;
-    }
-
-    setItems(JSON.parse(dadosSalvos));
+    if (dadosSalvos) setItems(JSON.parse(dadosSalvos));
   }, []);
 
-  /*
-    Configuração do formulário com React Hook Form + Zod.
-  */
   const formulario = useForm<MoneyFormData>({
     resolver: zodResolver(moneySchema),
-    defaultValues: {
-      description: "",
-      value: 0,
-    },
+    defaultValues: { description: "", value: 0 },
   });
 
-  /*
-    Submissão do formulário.
-  */
   function submeterFormulario(dados: MoneyFormData) {
     const novaLista = [...items, dados];
-
     setItems(novaLista);
     formulario.reset();
-
-    // Persistência no localStorage
     localStorage.setItem("moneyflow", JSON.stringify(novaLista));
   }
 
-  /*
-    Cálculo do saldo total.
-    Soma todos os valores cadastrados.
-  */
-  const saldoTotal = items.reduce(
-    (total, item) => total + item.value,
-    0
-  );
-
-  /*
-    Remove um item pelo índice.
-  */
   function removerItem(index: number) {
     const novaLista = items.filter((_, i) => i !== index);
-
     setItems(novaLista);
     localStorage.setItem("moneyflow", JSON.stringify(novaLista));
   }
 
+  const entradas = items.filter(i => i.type === "Entrada")
+    .reduce((t, i) => t + i.value, 0);
+
+  const saidas = items.filter(i => i.type === "Saída")
+    .reduce((t, i) => t + i.value, 0);
+
+  const saldoTotal = entradas - saidas;
+
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2">MoneyFlow</h1>
+    <div className="max-w-2xl mx-auto space-y-8">
 
-      {/* Exibição do saldo total */}
-      <p className="mb-4 font-semibold">
-        Saldo Total: R$ {saldoTotal.toFixed(2)}
-      </p>
+      <header>
+        <h1 className="text-3xl font-bold">MoneyFlow</h1>
+        <p className="text-muted">Controle financeiro pessoal</p>
+      </header>
 
+      {/* DASHBOARD */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-surface p-4 rounded-xl shadow">
+          <p className="text-muted">Entradas</p>
+          <p className="text-green-600 font-bold text-xl">
+            R$ {entradas.toFixed(2)}
+          </p>
+        </div>
+
+        <div className="bg-surface p-4 rounded-xl shadow">
+          <p className="text-muted">Saídas</p>
+          <p className="text-danger font-bold text-xl">
+            R$ {saidas.toFixed(2)}
+          </p>
+        </div>
+
+        <div className="bg-surface p-4 rounded-xl shadow">
+          <p className="text-muted">Saldo</p>
+          <p className={`font-bold text-xl ${saldoTotal >= 0 ? "text-green-600" : "text-danger"}`}>
+            R$ {saldoTotal.toFixed(2)}
+          </p>
+        </div>
+      </div>
+
+      {/* FORM */}
       <form
         onSubmit={formulario.handleSubmit(submeterFormulario)}
-        className="space-y-4"
+        className="bg-surface p-6 rounded-xl shadow space-y-4"
       >
-        {/* Descrição */}
-        <div>
-          <label>Descrição</label>
-          <input
-            {...formulario.register("description")}
-            className="w-full border p-2 rounded"
-          />
-          {formulario.formState.errors.description && (
-            <p className="text-red-500 text-sm">
-              {formulario.formState.errors.description.message}
-            </p>
-          )}
-        </div>
+        <Input
+          label="Descrição"
+          {...formulario.register("description")}
+          error={formulario.formState.errors.description?.message}
+        />
 
-        {/* Valor */}
-        <div>
-          <label>Valor</label>
-          <input
-            type="number"
-            step="0.01"
-            {...formulario.register("value", {
-              valueAsNumber: true,
-            })}
-            className="w-full border p-2 rounded"
-          />
-          {formulario.formState.errors.value && (
-            <p className="text-red-500 text-sm">
-              {formulario.formState.errors.value.message}
-            </p>
-          )}
-        </div>
+        <Select
+          label="Tipo"
+          {...formulario.register("type")}
+          error={formulario.formState.errors.type?.message}
+          options={[
+            { value: "Entrada", label: "Entrada (+)" },
+            { value: "Saída", label: "Saída (-)" },
+          ]}
+        />
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded">
-          Adicionar
-        </button>
+        <Input
+          label="Valor"
+          type="number"
+          step="0.01"
+          {...formulario.register("value", { valueAsNumber: true })}
+          error={formulario.formState.errors.value?.message}
+        />
+
+        <Button type="submit">Adicionar</Button>
       </form>
 
-      {/* Lista de lançamentos */}
-      <div className="mt-6 space-y-2">
+      {/* LISTA */}
+      <div className="space-y-3">
         {items.map((item, index) => (
           <div
             key={index}
-            className="border p-2 rounded flex justify-between"
+            className="bg-surface p-4 rounded-lg shadow flex justify-between"
           >
-            <span>
-              {item.description} – R$ {item.value.toFixed(2)}
-            </span>
+            <div>
+              <p className="font-medium">{item.description}</p>
+              <p className={`text-sm ${item.type === "Entrada" ? "text-green-600" : "text-danger"}`}>
+                {item.type} – R$ {item.value.toFixed(2)}
+              </p>
+            </div>
             <button
               onClick={() => removerItem(index)}
-              className="text-red-500"
+              className="text-danger"
             >
               Remover
             </button>
           </div>
         ))}
       </div>
+
     </div>
   );
 }
-
-

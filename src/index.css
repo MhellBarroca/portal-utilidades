@@ -2,4 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/*O index.css importa as camadas principais do Tailwind: base, components e utilities. */
+body {
+  @apply bg-background text-gray-800;
+
+
+}
+

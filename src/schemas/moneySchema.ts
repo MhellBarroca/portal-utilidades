@@ -11,20 +11,17 @@ export const moneySchema = z.object({
 
   value: z
     .number({
-      invalid_type_error: "O valor deve ser numérico",
+      message: "O valor deve ser numérico",
     })
     .positive("O valor deve ser maior que zero"),
+
+  // O "as const" garante que o TypeScript trate isto como valores exatos
+  type: z.enum(["Entrada", "Saída"] as const, {
+    message: "Selecione o tipo de movimentação",
+  }),
 });
 
 /*
   Tipo TypeScript gerado a partir do schema.
 */
 export type MoneyFormData = z.infer<typeof moneySchema>;
-
-
-// // 📌 Por que number e não string?
-
-// // Porque vamos fazer cálculo de saldo.
-// // Isso evita conversão manual depois.
-
-

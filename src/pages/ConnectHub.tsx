@@ -5,162 +5,109 @@ import { contactSchema } from "../schemas/contactSchema";
 import type { ContactFormData } from "../schemas/contactSchema";
 
 export function ConnectHub() {
-  /*
-    Estado que funciona como "banco de dados local da aplicação".
-    Guarda a lista de contatos cadastrados.
-  */
   const [contacts, setContacts] = useState<ContactFormData[]>([]);
 
-  /*
-    Ao carregar a página, buscamos os contatos salvos no localStorage.
-    Isso garante que os dados persistam após F5.
-  */
   useEffect(() => {
     const contatosArmazenados = localStorage.getItem("contacts");
-
-    if (contatosArmazenados === null) {
-      setContacts([]);
-      return;
+    if (contatosArmazenados) {
+      setContacts(JSON.parse(contatosArmazenados));
     }
-
-    setContacts(JSON.parse(contatosArmazenados));
   }, []);
 
-  /*
-    Configuração do formulário usando React Hook Form
-    + validação com Zod.
-  */
   const formulario = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
   });
 
-  /*
-    Função chamada quando o formulário é enviado.
-    Recebe os dados já validados pelo Zod.
-  */
   function submeterFormulario(dados: ContactFormData) {
     const novaLista = [...contacts, dados];
-
-    // Atualiza o estado
     setContacts(novaLista);
-
-    // Limpa o formulário após cadastro
     formulario.reset();
-
-    /*
-      Salvamento explícito no localStorage.
-      Mesmo padrão usado em aula e no TaskMaster.
-    */
     localStorage.setItem("contacts", JSON.stringify(novaLista));
   }
 
-  /*
-    Remove um contato usando o índice do array.
-  */
   function removerContato(index: number) {
     const novaLista = contacts.filter((_, i) => i !== index);
-
     setContacts(novaLista);
     localStorage.setItem("contacts", JSON.stringify(novaLista));
   }
 
   return (
-    <div className="p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">ConnectHub</h1>
+    <div className="max-w-xl mx-auto space-y-6">
+
+      <header>
+        <h1 className="text-3xl font-bold">ConnectHub</h1>
+        <p className="text-muted">Gerencie seus contatos</p>
+      </header>
 
       <form
         onSubmit={formulario.handleSubmit(submeterFormulario)}
-        className="space-y-4"
+        className="bg-surface p-6 rounded-xl shadow space-y-4"
       >
-        {/* Campo Nome */}
         <div>
-          <label>Nome Completo</label>
+          <label className="text-sm font-medium">Nome Completo</label>
           <input
             {...formulario.register("name")}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded mt-1"
           />
           {formulario.formState.errors.name && (
-            <p className="text-red-500 text-sm">
+            <p className="text-danger text-sm">
               {formulario.formState.errors.name.message}
             </p>
           )}
         </div>
 
-        {/* Campo Email */}
         <div>
-          <label>E-mail</label>
+          <label className="text-sm font-medium">E-mail</label>
           <input
             {...formulario.register("email")}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded mt-1"
           />
           {formulario.formState.errors.email && (
-            <p className="text-red-500 text-sm">
+            <p className="text-danger text-sm">
               {formulario.formState.errors.email.message}
             </p>
           )}
         </div>
 
-        {/* Campo Telefone */}
         <div>
-          <label>Telefone</label>
+          <label className="text-sm font-medium">Telefone</label>
           <input
             {...formulario.register("phone")}
-            className="w-full border p-2 rounded"
+            className="w-full border p-2 rounded mt-1"
           />
           {formulario.formState.errors.phone && (
-            <p className="text-red-500 text-sm">
+            <p className="text-danger text-sm">
               {formulario.formState.errors.phone.message}
             </p>
           )}
         </div>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded">
-          Adicionar
+        <button className="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">
+          Adicionar contato
         </button>
       </form>
 
-      {/* Lista de contatos */}
-      <div className="mt-6 space-y-2">
+      <div className="space-y-3">
         {contacts.map((contact, index) => (
           <div
             key={index}
-            className="border p-2 rounded flex justify-between"
+            className="bg-surface p-4 rounded-lg shadow flex justify-between items-center"
           >
-            <span>
-              {contact.name} – {contact.email} – {contact.phone}
-            </span>
+            <div>
+              <p className="font-medium">{contact.name}</p>
+              <p className="text-sm text-muted">{contact.email}</p>
+              <p className="text-sm text-muted">{contact.phone}</p>
+            </div>
             <button
               onClick={() => removerContato(index)}
-              className="text-red-500"
+              className="text-danger hover:text-red-700"
             >
               Remover
             </button>
           </div>
         ))}
       </div>
+
     </div>
   );
 }
-
-
-// Se o professor perguntar:
-
-// “Como você valida os dados?”
-
-// Uso Zod integrado com React Hook Form através do zodResolver.
-
-// “Onde os dados ficam salvos?”
-
-// No estado do componente e sincronizados com o localStorage.
-
-// “Por que usar useEffect?”
-
-// Para carregar os dados salvos quando a página é aberta.
-
-// “Por que usar reset?”
-
-// Para limpar o formulário após o cadastro.
-
-// Tudo simples.
-// Tudo igual aula.
-// Tudo legítimo.
